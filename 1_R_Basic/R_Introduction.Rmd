@@ -1,0 +1,254 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code.
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*.
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+```{r}
+test <- 2 + 2
+test
+```
+
+```{r}
+?plot
+```
+
+## Object in R
+
+-   Everything in R is an object (from a single number or character string (like a word) to highly complex structures like the output of a plot, a summary of your statistical analysis or a set of R commands that perform a specific task)
+-   To create an object we simply give the object a name. We can then assign a value to this object using the *assignment operator* `<-` (sometimes called the *gets operator*). The assignment operator is a composite symbol comprised of a 'less than' symbol `<` and a hyphen `-` .
+
+```{r, echo=TRUE, eval=TRUE}
+my_obj <- 48
+```
+
+To view the value of the object you simply type the name of the object
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
+my_obj
+```
+
+There are many different types of values that you can assign to an object. For example
+
+```{r, echo=TRUE, eval=TRUE}
+my_obj2 <- "R is cool"
+```
+
+To change the value of an existing object we simply reassign a new value to it. For example, to change the value of `my_obj2` from `"R is cool"` to the number `1024`
+
+```{r, echo=TRUE, eval=TRUE}
+my_obj2 <- 1024
+```
+
+Notice that the Type has changed to numeric and the value has changed to 1024 in the environment
+
+Once we have created a few objects, we can do stuff with our objects. For example, the following code creates a new object `my_obj3` and assigns it the value of `my_obj` added to `my_obj2` which is 1072 (48 + 1024 = 1072).
+
+```{r, echo=TRUE, eval=TRUE}
+my_obj3 <- my_obj + my_obj2
+my_obj3
+```
+
+Notice that to display the value of `my_obj3` we also need to write the object's name. The above code works because the values of both `my_obj` and `my_obj2` are numeric (i.e. a number). If you try to do this with objects with character values (**character class**) you will receive an error
+
+```{r, echo=TRUE, eval=FALSE}
+char_obj <- "hello"
+char_obj2 <- "world!"
+char_obj3 <- char_obj + char_obj2
+#Error in char_obj+char_obj2:non-numeric argument to binary operator
+```
+
+## Using functions in R
+
+-   The first function we will learn about is the `c()`\index{c()} function.
+-   The `c()` function is short for concatenate and we use it to join together a series of values and store them in a data structure called a **vector**
+
+```{r, echo=TRUE, eval=TRUE}
+my_vec <- c(2, 3, 1, 6, 4, 3, 3, 7)
+my_vec
+```
+
+Then, we can do more operations on the vector
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
+mean(my_vec)    # returns the mean of my_vec
+var(my_vec)     # returns the variance of my_vec
+sd(my_vec)      # returns the standard deviation of my_vec
+length(my_vec)  # returns the number of elements in my_vec
+```
+
+## Working with vectors
+
+### Extracting elements
+
+#### Positional index {.unnumbered}
+
+To extract elements based on their position we simply write the position inside the `[ ]`. For example, to extract the 3rd value of `my_vec`
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
+my_vec        # remind ourselves what my_vec looks like
+my_vec[3]     # extract the 3rd value
+# if you want to store this value in another object
+val_3 <- my_vec[3]
+val_3
+```
+
+We can also extract more than one value by using the `c()` function inside the square brackets.
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
+my_vec[c(1, 5, 6, 8)]
+```
+
+Or we can extract a range of values using the `:` notation.
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
+my_vec[3:8]
+```
+
+Use logical expressions to extract values
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
+my_vec[my_vec >= 4]        # values greater or equal to 4
+my_vec[my_vec < 4]         # values less than 4
+my_vec[my_vec <= 4]        # values less than or equal to 4
+my_vec[my_vec == 4]        # values equal to 4
+my_vec[my_vec != 4]        # values not equal to 4
+
+val26 <- my_vec[my_vec < 6 & my_vec > 2]
+val26
+```
+
+### Replacing elements
+
+```{r}
+my_vec[4] <- 500
+my_vec
+
+# replace the 6th and 7th element with 100
+my_vec[c(6, 7)] <- 100
+my_vec
+
+# replace element that are less than or equal to 4 with 1000
+my_vec[my_vec <= 4] <- 1000
+my_vec
+
+```
+
+Q. How to replace elements of my_vec from 2 to 5 by one line?
+
+```{r}
+# your answer:
+
+```
+
+### Vectorisation
+
+One of the great things about R functions is that the function will operate on all elements of a vector without needing to apply the function on each element separately. F
+
+For example, to multiple each element of a vector by 5 we can simply use
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
+# create a vector
+my_vec2 <- c(3, 5, 7, 1, 9, 20)
+# multiply each element by 5
+my_vec2 * 5
+```
+
+If vectors have different lengths, as R will quietly recycle the elements in the shorter vector.
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
+# create a third vector
+my_vec4 <- c(1, 2)
+# add both vectors - quiet recycling!
+my_vec2 + my_vec4
+```
+
+### Missing data
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
+temp  <- c(7.2, NA, 7.1, 6.9, 6.5, 5.8, 5.8, 5.5, NA, 5.5)
+temp
+```
+
+However, when we want to apply function on temp vector
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
+mean_temp <- mean(temp)
+mean_temp
+```
+
+If we change this argument to `na.rm = TRUE` when we use the `mean()` function this will allow us to ignore the `NA` (have not been removed from our `temp`!)
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
+mean_temp <- mean(temp, na.rm = TRUE)
+mean_temp
+```
+
+## Data frames
+
+### Import Data Frames
+
+-   Although there are many other data structures in R (e.g., Vector, Matrics, and List), the most commonly used data structure to store data in is the data frame!
+-   Data frame is a powerful two-dimensional object made up of rows and columns
+-   We often use data frame to import csv or text files
+-   cars is a built-in data frame
+
+```{r}
+# import txt file
+Cars93 <- read.table("Cars93.txt", header=T, sep="\t")
+
+# import csv file
+pilot <- read.csv("pilot_grandTable.csv", stringsAsFactors = F)
+
+```
+
+We can get the name of columns and save into another vectors
+
+```{r}
+names(Cars93)
+col.cars93 <- names(Cars93)
+```
+
+```{r}
+names(pilot)
+
+names(cars)
+```
+
+We can also check the imported data frames by double clicking them.
+
+To access the data in any of the variables (columns) in our data frame we can use the \$ notation. We can also assign the column to another vector
+
+```{r}
+pilot$condition
+Cars93$Manufacturer
+
+time <- pilot$start_time
+```
+
+### Export Data Frames
+
+```{r}
+# export to txt file
+write.table(Cars93, file = 'output/output_cars93.txt', col.names = TRUE,
+             row.names = FALSE, sep = "\t")
+
+# export to csv file
+write.csv(pilot, file ="output/output_pilot.txt", row.names = F)
+
+```
