@@ -71,7 +71,7 @@ Some important things to remember when using correlation
 
 ## Whether the correlation is significant? (2/2)
 
-- If p \< 0.05, reject null hypothesis and accept alternative hypothesis (more introduction in W6)
+- If p \< 0.05, reject null hypothesis
 
 ```{r}
 
